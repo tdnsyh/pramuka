@@ -11,18 +11,24 @@ use Illuminate\Support\Facades\Hash;
 
 class KwarcabController extends Controller
 {
+    /**
+     * Dashboard Kwarcab
+     */
     public function kwarcabDashboard()
     {
         return view('dashboard.kwarcab.index');
     }
 
-
+    /**
+     * pengguna sistem
+     */
     public function penggunaIndex()
     {
         $users = User::with(['role', 'region'])->get();
         return view('dashboard.kwarcab.pengguna.index', compact('users'));
     }
 
+    // tambah pengguna
     public function penggunaTambah()
     {
         $roles = Role::whereIn('name', ['Kwarcab', 'Kwarran', 'Gudep'])->get();
@@ -30,6 +36,7 @@ class KwarcabController extends Controller
         return view('dashboard.kwarcab.pengguna.create', compact('roles', 'regions'));
     }
 
+    // simpan pengguna
     public function penggunaSimpan(Request $request)
     {
         $request->validate([
@@ -37,7 +44,7 @@ class KwarcabController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:8',
             'role_id' => 'required|exists:role,id',
-            'region_id' => 'required|exists:region,id',
+            'region_id' => 'nullable|exists:region,id',
         ]);
 
         User::create([
@@ -51,18 +58,23 @@ class KwarcabController extends Controller
         return redirect('/kwarcab/pengguna')->with('success', 'User berhasil ditambahkan!');
     }
 
+    /**
+     * wilayah
+     */
     public function regionIndex()
     {
         $regions = Region::with('parent')->get();
-        return view('dashboard.kwarcab.region.index', compact('regions'));
+        return view('dashboard.kwarcab.wilayah.index', compact('regions'));
     }
 
+    // tambah wilayah
     public function regionCreate()
     {
         $parents = Region::all();
-        return view('dashboard.kwarcab.region.create', compact('parents'));
+        return view('dashboard.kwarcab.wilayah.create', compact('parents'));
     }
 
+    // simpan wilayah
     public function regionStore(Request $request)
     {
         $request->validate([
@@ -72,15 +84,17 @@ class KwarcabController extends Controller
         ]);
 
         Region::create($request->all());
-        return redirect('/kwarcab/region')->with('success', 'Region berhasil ditambahkan.');
+        return redirect('/kwarcab/wilayah')->with('success', 'Region berhasil ditambahkan.');
     }
 
+    // edit wilayah
     public function regionEdit(Region $region)
     {
         $parents = Region::where('id', '!=', $region->id)->get();
-        return view('dashboard.kwarcab.region.edit', compact('region', 'parents'));
+        return view('dashboard.kwarcab.wilayah.edit', compact('region', 'parents'));
     }
 
+    // update wilayah
     public function regionUpdate(Request $request, Region $region)
     {
         $request->validate([
@@ -90,12 +104,13 @@ class KwarcabController extends Controller
         ]);
 
         $region->update($request->all());
-        return redirect('/kwarcab/region')->with('success', 'Region berhasil diperbarui.');
+        return redirect('/kwarcab/wilayah')->with('success', 'Region berhasil diperbarui.');
     }
 
+    // hapus wilayah
     public function regionDestroy(Region $region)
     {
         $region->delete();
-        return redirect('/kwarcab/region')->with('success', 'Region berhasil dihapus.');
+        return redirect('/kwarcab/wilayah')->with('success', 'Region berhasil dihapus.');
     }
 }

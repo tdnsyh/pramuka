@@ -12,7 +12,7 @@
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Region</th>
+                                <th>Wilayah</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

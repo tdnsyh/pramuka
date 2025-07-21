@@ -4,7 +4,8 @@
         <div class="card">
             <div class="card-body">
                 <h1>Daftar Gudep</h1>
-                <a href="/kwarran/region/tambah" class="btn bg-primary-subtle text-primary rounded mt-2">Tambah Gudep</a>
+                <a href="{{ route('kwarran.gudep.create') }}" class="btn bg-primary-subtle text-primary rounded mt-2">Tambah
+                    Gudep</a>
 
                 @if (session('success'))
                     <div class="alert alert-success mt-3">{{ session('success') }}</div>
@@ -23,9 +24,9 @@
                                 <tr>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <a href="/kwarran/region/{{ $item->id }}/edit"
+                                        <a href="/kwarran/gudep/{{ $item->id }}/edit"
                                             class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="/kwarran/region/{{ $item->id }}" method="POST"
+                                        <form action="/kwarran/gudep/{{ $item->id }}" method="POST"
                                             style="display:inline;">
                                             @csrf @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"

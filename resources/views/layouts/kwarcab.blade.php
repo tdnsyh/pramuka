@@ -33,7 +33,7 @@
 
                         <!-- Dashboard -->
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab" aria-expanded="false">
+                            <a class="sidebar-link" href="/kwarcab/dashboard" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:home-smile-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
@@ -44,7 +44,7 @@
                         <!-- Manajemen Anggota -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
-                            <span class="hide-menu">Manajemen</span>
+                            <span class="hide-menu">data</span>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/kwarcab/anggota" aria-expanded="false">
@@ -75,18 +75,16 @@
                                 <span class="hide-menu">Kegiatan</span>
                             </a>
                         </li>
-
-                        <!-- Logout -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
-                            <span class="hide-menu">Akun</span>
+                            <span class="hide-menu">master data</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/region" aria-expanded="false">
+                            <a class="sidebar-link" href="/kwarcab/wilayah" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
-                                <span class="hide-menu">Region</span>
+                                <span class="hide-menu">Wilayah</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -97,7 +95,27 @@
                                 <span class="hide-menu">Manajemen User</span>
                             </a>
                         </li>
-
+                        <!-- Logout -->
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
+                            <span class="hide-menu">Akun</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/kwarcab/profil" aria-expanded="false">
+                                <span>
+                                    <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
+                                </span>
+                                <span class="hide-menu">Profil</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/kwarcab/tentang" aria-expanded="false">
+                                <span>
+                                    <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
+                                </span>
+                                <span class="hide-menu">Tentang Kwarcab</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/logout"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

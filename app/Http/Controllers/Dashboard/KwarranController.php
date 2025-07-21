@@ -9,28 +9,38 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
+use App\Models\Anggota;
+use Illuminate\Support\Facades\Storage;
 
 class KwarranController extends Controller
 {
+    /**
+     * dashboard kwarran
+     */
     public function kwarranDashboard()
     {
         return view('dashboard.kwarran.index');
     }
 
+    /**
+     * wilayah
+     */
     public function regionIndex()
     {
         $gudep = Region::where('type', 'gudep')
                     ->where('parent_id', Auth::user()->region_id)
                     ->get();
 
-        return view('dashboard.kwarran.region.index', compact('gudep'));
+        return view('dashboard.kwarran.gudep.index', compact('gudep'));
     }
 
+    // tambah wilayah
     public function regionCreate()
     {
-        return view('dashboard.kwarran.region.create');
+        return view('dashboard.kwarran.gudep.create');
     }
 
+    // simpan wilayah
     public function regionStore(Request $request)
     {
         $request->validate([
@@ -43,18 +53,20 @@ class KwarranController extends Controller
             'parent_id' => Auth::user()->region_id,
         ]);
 
-        return redirect()->route('kwarran.region.index')->with('success', 'Gudep berhasil ditambahkan');
+        return redirect()->route('kwarran.gudep.index')->with('success', 'Gudep berhasil ditambahkan');
     }
 
+    // edit wilayah
     public function regionEdit($id)
     {
         $gudep = Region::where('id', $id)
                     ->where('parent_id', Auth::user()->region_id)
                     ->firstOrFail();
 
-        return view('dashboard.kwarran.region.edit', compact('gudep'));
+        return view('dashboard.kwarran.gudep.edit', compact('gudep'));
     }
 
+    // update wilayah
     public function regionUpdate(Request $request, $id)
     {
         $request->validate([
@@ -69,9 +81,10 @@ class KwarranController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('kwarran.region.index')->with('success', 'Gudep berhasil diperbarui');
+        return redirect()->route('kwarran.gudep.index')->with('success', 'Gudep berhasil diperbarui');
     }
 
+    // hapus wilayah
     public function regionDestroy($id)
     {
         $gudep = Region::where('id', $id)
@@ -80,10 +93,12 @@ class KwarranController extends Controller
 
         $gudep->delete();
 
-        return redirect()->route('kwarran.region.index')->with('success', 'Gudep berhasil dihapus');
+        return redirect()->route('kwarran.gudep.index')->with('success', 'Gudep berhasil dihapus');
     }
 
-
+    /**
+     * Pengguna
+     */
     public function penggunaIndex()
     {
         $gudepRoleId = Role::where('name', 'gudep')->value('id');
@@ -97,6 +112,7 @@ class KwarranController extends Controller
         return view('dashboard.kwarran.pengguna.index', compact('users'));
     }
 
+    // tambah pengguna
     public function penggunaCreate()
     {
         $regions = Region::where('type', 'gudep')
@@ -106,6 +122,7 @@ class KwarranController extends Controller
         return view('dashboard.kwarran.pengguna.create', compact('regions'));
     }
 
+    // simpan pengguna
     public function penggunaStore(Request $request)
     {
         $request->validate([
@@ -132,6 +149,7 @@ class KwarranController extends Controller
         return redirect()->route('kwarran.pengguna.index')->with('success', 'Akun Gudep berhasil dibuat');
     }
 
+    // edit pengguna
     public function penggunaEdit(User $user)
     {
         $this->authorizeUser($user);
@@ -143,6 +161,7 @@ class KwarranController extends Controller
         return view('dashboard.kwarran.pengguna.edit', compact('user', 'regions'));
     }
 
+    // update pengguna
     public function penggunaUpdate(Request $request, User $user)
     {
         $this->authorizeUser($user);
@@ -154,12 +173,10 @@ class KwarranController extends Controller
             'password'  => 'nullable|min:8|confirmed',
         ]);
 
-        // Pastikan region tersebut benar-benar milik kwarran yang login
         $region = Region::where('id', $request->region_id)
                         ->where('parent_id', Auth::user()->region_id)
                         ->firstOrFail();
 
-        // Update user
         $user->update([
             'name'      => $request->name,
             'email'     => $request->email,
@@ -170,6 +187,7 @@ class KwarranController extends Controller
         return redirect()->route('kwarran.pengguna.index')->with('success', 'Akun berhasil diperbarui');
     }
 
+    // hapus pengguna
     public function penggunaDestroy(User $user)
     {
         $this->authorizeUser($user);
@@ -180,7 +198,6 @@ class KwarranController extends Controller
 
     protected function authorizeUser(User $user)
     {
-        // Hanya izinkan user yang berada di wilayah bawahannya (anak region)
         $allowedRegionIds = Region::where('parent_id', Auth::user()->region_id)->pluck('id');
 
         if (! $allowedRegionIds->contains($user->region_id)) {
@@ -188,4 +205,115 @@ class KwarranController extends Controller
         }
     }
 
+    public function anggotaIndex()
+    {
+        $gudepIds = Region::where('parent_id', Auth::user()->region_id)->pluck('id');
+        $anggota = Anggota::whereIn('region_id', $gudepIds)->get();
+
+        return view('dashboard.kwarran.anggota.index', compact('anggota'));
+    }
+
+    public function anggotaCreate()
+    {
+        $regions = Region::where('parent_id', Auth::user()->region_id)->get();
+        return view('dashboard.kwarran.anggota.create', compact('regions'));
+    }
+
+    public function anggotaStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'nta' => 'required|string|max:50|unique:anggota',
+            'region_id' => 'required|exists:region,id',
+            'golongan' => 'required|string',
+            'jabatan' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'required|in:aktif,nonaktif',
+        ]);
+
+        $region = Region::where('id', $request->region_id)
+                        ->where('parent_id', Auth::user()->region_id)
+                        ->firstOrFail();
+
+        $data = $request->only(['name', 'nta', 'golongan', 'jabatan', 'status']);
+        $data['region_id'] = $region->id;
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('anggota', 'public');
+        }
+
+        Anggota::create($data);
+
+        return redirect()->route('kwarran.anggota.index')->with('success', 'Anggota berhasil ditambahkan');
+    }
+
+    public function anggotaEdit(Anggota $anggota)
+    {
+        $this->authorizeRegion($anggota->region_id);
+
+        $regions = Region::where('parent_id', Auth::user()->region_id)->get();
+        return view('dashboard.kwarran.anggota.edit', compact('anggota', 'regions'));
+    }
+
+    public function anggotaUpdate(Request $request, Anggota $anggota)
+    {
+        $this->authorizeRegion($anggota->region_id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'nta' => 'required|string|max:50|unique:anggota,nta,' . $anggota->id,
+            'region_id' => 'required|exists:region,id',
+            'golongan' => 'required|string',
+            'jabatan' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'required|in:aktif,nonaktif',
+        ]);
+
+        $region = Region::where('id', $request->region_id)
+                        ->where('parent_id', Auth::user()->region_id)
+                        ->firstOrFail();
+
+        $anggota->fill($request->only(['name', 'nta', 'golongan', 'jabatan', 'status']));
+        $anggota->region_id = $region->id;
+
+        if ($request->hasFile('foto')) {
+            if ($anggota->foto) {
+                Storage::disk('public')->delete($anggota->foto);
+            }
+            $anggota->foto = $request->file('foto')->store('anggota', 'public');
+        }
+
+        $anggota->save();
+
+        return redirect()->route('kwarran.anggota.index')->with('success', 'Anggota berhasil diperbarui');
+    }
+
+    public function anggotaShow(Anggota $anggota)
+    {
+        $this->authorizeRegion($anggota->region_id);
+
+        return view('dashboard.kwarran.anggota.show', compact('anggota'));
+    }
+
+    public function anggotaDestroy(Anggota $anggota)
+    {
+        $this->authorizeRegion($anggota->region_id);
+
+        if ($anggota->foto) {
+            Storage::disk('public')->delete($anggota->foto);
+        }
+
+        $anggota->delete();
+
+        return redirect()->route('kwarran.anggota.index')->with('success', 'Anggota berhasil dihapus');
+    }
+
+    private function authorizeRegion($region_id)
+    {
+        $gudepIds = Region::where('parent_id', Auth::user()->region_id)->pluck('id')->toArray();
+
+        if (!in_array($region_id, $gudepIds)) {
+            abort(403, 'Tidak diizinkan mengakses anggota ini.');
+        }
+    }
 }

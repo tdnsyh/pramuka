@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <h1>Daftar Wilayah</h1>
-                <a href="/kwarcab/region/tambah" class="btn mt-2 bg-primary-subtle text-primary rounded">Tambah Wilayah</a>
+                <a href="/kwarcab/wilayah/tambah" class="btn mt-2 bg-primary-subtle text-primary rounded">Tambah Wilayah</a>
 
                 @if (session('success'))
                     <div class="alert alert-success mt-3">{{ session('success') }}</div>
@@ -26,9 +26,9 @@
                                     <td>{{ ucfirst($region->type) }}</td>
                                     <td>{{ $region->parent->name ?? '-' }}</td>
                                     <td>
-                                        <a href="/kwarcab/region/{{ $region->id }}/edit"
+                                        <a href="/kwarcab/wilayah/{{ $region->id }}/edit"
                                             class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="/kwarcab/region/{{ $region->id }}" method="POST"
+                                        <form action="/kwarcab/wilayah/{{ $region->id }}" method="POST"
                                             style="display:inline-block">
                                             @csrf
                                             @method('DELETE')

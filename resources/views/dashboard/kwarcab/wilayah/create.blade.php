@@ -5,7 +5,7 @@
             <div class="card-body">
                 <h4>Tambah Wilayah</h4>
 
-                <form method="POST" action="/kwarcab/region/">
+                <form method="POST" action="/kwarcab/wilayah/">
                     @csrf
 
                     <div class="mb-3">
@@ -33,7 +33,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="/kwarcab/region" class="btn btn-secondary">Kembali</a>
+                    <a href="/kwarcab/wilayah" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>

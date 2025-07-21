@@ -26,16 +26,19 @@
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
-                                class="hide-menu">KWARRAN</span></li>
+                                class="hide-menu">home</span>
+                        </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarran">
+                            <a class="sidebar-link" href="/kwarran/dashboard">
                                 <span><iconify-icon icon="solar:home-smile-bold-duotone"
                                         class="fs-6"></iconify-icon></span>
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
-
+                        <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
+                                class="hide-menu">data</span>
+                        </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/kwarran/anggota">
                                 <span><iconify-icon icon="solar:users-group-rounded-bold-duotone"
@@ -59,16 +62,14 @@
                                 <span class="hide-menu">Kegiatan</span>
                             </a>
                         </li>
-
                         <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
-                                class="hide-menu">LAINNYA</span></li>
-
+                                class="hide-menu">master data</span></li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarran/region" aria-expanded="false">
+                            <a class="sidebar-link" href="/kwarran/gudep" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
-                                <span class="hide-menu">Region</span>
+                                <span class="hide-menu">Gudep</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -76,7 +77,26 @@
                                 <span>
                                     <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
-                                <span class="hide-menu">Manajemen User</span>
+                                <span class="hide-menu">Pengguna</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
+                                class="hide-menu">LAINNYA</span></li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/kwarran/profil" aria-expanded="false">
+                                <span>
+                                    <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
+                                </span>
+                                <span class="hide-menu">Profil</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/kwarran/tentang" aria-expanded="false">
+                                <span>
+                                    <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
+                                </span>
+                                <span class="hide-menu">Tentang Kwarran</span>
                             </a>
                         </li>
                         <li class="sidebar-item">

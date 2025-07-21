@@ -20,9 +20,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // admin route
 Route::middleware(['auth', RoleMiddleware::class . ':Kwarcab'])->prefix('kwarcab')->name('kwarcab.')->group(function () {
-    Route::get('/', [KwarcabController::class, 'kwarcabDashboard'])->name('dashboard.index');
+    Route::get('/dashboard', [KwarcabController::class, 'kwarcabDashboard'])->name('dashboard.index');
 
-    Route::controller(KwarcabController::class)->prefix('region')->name('region.')->group(function () {
+    Route::controller(KwarcabController::class)->prefix('wilayah')->name('wilayah.')->group(function () {
         Route::get('/', 'regionIndex')->name('index');
         Route::get('/tambah', 'regionCreate')->name('create');
         Route::post('/', 'regionStore')->name('store');
@@ -40,9 +40,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarcab'])->prefix('kwarcab
 
 
 Route::middleware(['auth', RoleMiddleware::class . ':Kwarran'])->prefix('kwarran')->name('kwarran.')->group(function () {
-    Route::get('/', [KwarranController::class, 'kwarranDashboard'])->name('dashboard.index');
+    Route::get('/dashboard', [KwarranController::class, 'kwarranDashboard'])->name('dashboard.index');
 
-    Route::controller(KwarranController::class)->prefix('region')->name('region.')->group(function () {
+    Route::controller(KwarranController::class)->prefix('gudep')->name('gudep.')->group(function () {
         Route::get('/', 'regionIndex')->name('index');
         Route::get('/tambah', 'regionCreate')->name('create');
         Route::post('/', 'regionStore')->name('store');
@@ -59,8 +59,30 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarran'])->prefix('kwarran
         Route::put('/{user}', 'penggunaUpdate')->name('update');
         Route::delete('/{user}', 'penggunaDestroy')->name('destroy');
     });
+
+    // anggota
+    Route::controller(KwarranController::class)->prefix('anggota')->name('anggota.')->group(function () {
+        Route::get('/', 'anggotaIndex')->name('index');
+        Route::get('/tambah', 'anggotaCreate')->name('create');
+        Route::post('/simpan', 'anggotaStore')->name('store');
+        Route::get('/{anggota}/edit', 'anggotaEdit')->name('edit');
+        Route::get('/{anggota}/detail', 'anggotaShow')->name('show');
+        Route::put('/{anggota}', 'anggotaUpdate')->name('update');
+        Route::delete('/{anggota}', 'anggotaDestroy')->name('destroy');
+    });
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':Gudep'])->prefix('gudep')->name('gudep.')->group(function () {
-    Route::get('/', [GudepController::class, 'gudepDashboard'])->name('dashboard.index');
+    Route::get('/dashboard', [GudepController::class, 'gudepDashboard'])->name('dashboard.index');
+
+    // anggota
+    Route::controller(GudepController::class)->prefix('anggota')->name('anggota.')->group(function () {
+        Route::get('/', 'anggotaIndex')->name('index');
+        Route::get('/tambah', 'anggotaCreate')->name('create');
+        Route::post('/simpan', 'anggotaStore')->name('store');
+        Route::get('/{anggota}/edit', 'anggotaEdit')->name('edit');
+        Route::get('/{anggota}/detail', 'anggotaShow')->name('show');
+        Route::put('/{anggota}', 'anggotaUpdate')->name('update');
+        Route::delete('/{anggota}', 'anggotaDestroy')->name('destroy');
+    });
 });

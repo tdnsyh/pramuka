@@ -26,7 +26,8 @@
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
-                                class="hide-menu">GUDEP</span></li>
+                                class="hide-menu">Home</span>
+                        </li>
 
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/gudep/dashboard">
@@ -35,7 +36,9 @@
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
-
+                        <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
+                                class="hide-menu">data</span>
+                        </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/gudep/anggota">
                                 <span><iconify-icon icon="solar:users-group-rounded-bold-duotone"
@@ -51,15 +54,23 @@
                                 <span class="hide-menu">Keuangan</span>
                             </a>
                         </li>
-
+                        <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
+                                class="hide-menu">lainnya</span>
+                        </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="/gudep/kegiatan">
-                                <span><iconify-icon icon="solar:calendar-bold-duotone"
+                            <a class="sidebar-link" href="/gudep/profil">
+                                <span><iconify-icon icon="solar:wallet-bold-duotone"
                                         class="fs-6"></iconify-icon></span>
-                                <span class="hide-menu">Kegiatan</span>
+                                <span class="hide-menu">Profil</span>
                             </a>
                         </li>
-
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/gudep/tentang">
+                                <span><iconify-icon icon="solar:wallet-bold-duotone"
+                                        class="fs-6"></iconify-icon></span>
+                                <span class="hide-menu">Tentang Gudep</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/logout"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
