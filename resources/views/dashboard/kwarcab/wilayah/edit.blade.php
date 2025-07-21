@@ -15,7 +15,7 @@
                     </div>
                 @endif
 
-                <form action="/kwarcab/region/{{ $region->id }}" method="POST">
+                <form action="/kwarcab/wilayah/{{ $region->id }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -51,7 +51,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="/kwarcab/region" class="btn btn-secondary">Kembali</a>
+                    <a href="/kwarcab/wilayah" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>

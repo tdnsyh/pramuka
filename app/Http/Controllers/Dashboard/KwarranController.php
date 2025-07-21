@@ -227,6 +227,7 @@ class KwarranController extends Controller
             'region_id' => 'required|exists:region,id',
             'golongan' => 'required|string',
             'jabatan' => 'nullable|string',
+            'pangkalan' => 'required|string',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'status' => 'required|in:aktif,nonaktif',
         ]);
@@ -235,7 +236,7 @@ class KwarranController extends Controller
                         ->where('parent_id', Auth::user()->region_id)
                         ->firstOrFail();
 
-        $data = $request->only(['name', 'nta', 'golongan', 'jabatan', 'status']);
+        $data = $request->only(['name', 'nta', 'golongan', 'jabatan', 'pangkalan', 'status']);
         $data['region_id'] = $region->id;
 
         if ($request->hasFile('foto')) {
@@ -265,6 +266,7 @@ class KwarranController extends Controller
             'region_id' => 'required|exists:region,id',
             'golongan' => 'required|string',
             'jabatan' => 'nullable|string',
+            'pangkalan' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'status' => 'required|in:aktif,nonaktif',
         ]);
@@ -273,7 +275,7 @@ class KwarranController extends Controller
                         ->where('parent_id', Auth::user()->region_id)
                         ->firstOrFail();
 
-        $anggota->fill($request->only(['name', 'nta', 'golongan', 'jabatan', 'status']));
+        $anggota->fill($request->only(['name', 'nta', 'golongan', 'pangkalan', 'jabatan', 'status']));
         $anggota->region_id = $region->id;
 
         if ($request->hasFile('foto')) {

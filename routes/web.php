@@ -36,6 +36,17 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarcab'])->prefix('kwarcab
         Route::get('/tambah', 'penggunaTambah')->name('create');
         Route::post('/simpan', 'penggunaSimpan')->name('store');
     });
+
+    // anggota
+    Route::controller(KwarcabController::class)->prefix('anggota')->name('anggota.')->group(function () {
+        Route::get('/', 'anggotaIndex')->name('index');
+        Route::get('/tambah', 'anggotaCreate')->name('create');
+        Route::post('/simpan', 'anggotaStore')->name('store');
+        Route::get('/{anggota}/edit', 'anggotaEdit')->name('edit');
+        Route::get('/{anggota}/detail', 'anggotaShow')->name('show');
+        Route::put('/{anggota}', 'anggotaUpdate')->name('update');
+        Route::delete('/{anggota}', 'anggotaDestroy')->name('destroy');
+    });
 });
 
 

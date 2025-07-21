@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Region;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Anggota;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class KwarcabController extends Controller
 {
@@ -112,5 +115,106 @@ class KwarcabController extends Controller
     {
         $region->delete();
         return redirect('/kwarcab/wilayah')->with('success', 'Region berhasil dihapus.');
+    }
+
+
+    public function anggotaIndex()
+    {
+        $childRegionIds = Region::where('parent_id', Auth::user()->region_id)->pluck('id');
+        $grandChildIds = Region::whereIn('parent_id', $childRegionIds)->pluck('id');
+        $allRegionIds = $childRegionIds->merge($grandChildIds)->push(Auth::user()->region_id);
+
+        $anggota = Anggota::whereIn('region_id', $allRegionIds)->latest()->get();
+
+        return view('dashboard.kwarcab.anggota.index', compact('anggota'));
+    }
+
+    public function anggotaCreate()
+    {
+        $kwarranIds = Region::where('parent_id', Auth::user()->region_id)
+                            ->where('type', 'kwarran')
+                            ->pluck('id');
+
+        $regions = Region::whereIn('parent_id', $kwarranIds)
+                        ->where('type', 'gudep')
+                        ->get();
+
+        return view('dashboard.kwarcab.anggota.create', compact('regions'));
+    }
+
+    public function anggotaStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'nta' => 'required|unique:anggota',
+            'region_id' => 'required|exists:region,id',
+            'golongan' => 'required',
+            'pangkalan' => 'required',
+            'jabatan' => 'required',
+            'status' => 'required|in:aktif,nonaktif',
+            'foto' => 'nullable|image|max:2048',
+        ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('anggota', 'public');
+        }
+
+        Anggota::create($data);
+
+        return redirect()->route('kwarcab.anggota.index')->with('success', 'Anggota berhasil ditambahkan.');
+    }
+
+    public function anggotaEdit(Anggota $anggota)
+    {
+        $regions = Region::whereIn('parent_id', function ($query) {
+            $query->select('id')->from('region')->where('parent_id', Auth::user()->region_id);
+        })->orWhere('parent_id', Auth::user()->region_id)->get();
+
+        return view('dashboard.kwarcab.anggota.edit', compact('anggota', 'regions'));
+    }
+
+    public function anggotaUpdate(Request $request, Anggota $anggota)
+    {
+        $request->validate([
+            'name' => 'required',
+            'nta' => 'required|unique:anggota,nta,' . $anggota->id,
+            'region_id' => 'required|exists:region,id',
+            'golongan' => 'required',
+            'jabatan' => 'required',
+            'pangkalan' => 'required',
+            'status' => 'required|in:aktif,nonaktif',
+            'foto' => 'nullable|image|max:2048',
+        ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('foto')) {
+            if ($anggota->foto) {
+                Storage::disk('public')->delete($anggota->foto);
+            }
+            $data['foto'] = $request->file('foto')->store('anggota', 'public');
+        }
+
+        $anggota->update($data);
+
+        return redirect()->route('kwarcab.anggota.index')->with('success', 'Data anggota diperbarui.');
+    }
+
+    public function anggotaShow(Anggota $anggota)
+    {
+        return view('dashboard.kwarcab.anggota.show', compact('anggota'));
+    }
+
+    public function anggotaDestroy(Anggota $anggota)
+    {
+        if ($anggota->foto) {
+            Storage::disk('public')->delete($anggota->foto);
+        }
+
+        $anggota->delete();
+
+        return redirect()->route('kwarcab.anggota.index')->with('success', 'Anggota berhasil dihapus.');
     }
 }

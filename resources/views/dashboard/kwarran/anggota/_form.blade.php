@@ -30,6 +30,11 @@
     </select>
 </div>
 <div class="mb-3">
+    <label>Pangkalan</label>
+    <input type="text" name="pangkalan" class="form-control"
+        value="{{ old('pangkalan', $anggota->pangkalan ?? '') }}" required>
+</div>
+<div class="mb-3">
     <label>Jabatan</label>
     <input type="text" name="jabatan" class="form-control" value="{{ old('jabatan', $anggota->jabatan ?? '') }}">
 </div>
