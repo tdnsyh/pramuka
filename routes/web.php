@@ -47,6 +47,33 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarcab'])->prefix('kwarcab
         Route::put('/{anggota}', 'anggotaUpdate')->name('update');
         Route::delete('/{anggota}', 'anggotaDestroy')->name('destroy');
     });
+
+    // Profil
+    Route::controller(KwarcabController::class)->prefix('profil')->name('profil.')->group(function () {
+        Route::get('/', 'profilIndex')->name('index');
+        Route::post('/update', 'profilUpdate')->name('update');
+    });
+
+    // Keuangan
+    Route::controller(KwarcabController::class)->prefix('keuangan')->name('keuangan.')->group(function () {
+        Route::get('/', 'keuanganIndex')->name('index');
+    });
+
+    // tentang
+    Route::controller(KwarcabController::class)->prefix('tentang')->name('tentang.')->group(function () {
+        Route::get('/', 'tentangIndex')->name('index');
+    });
+
+    // kegiatan
+    Route::controller(KwarcabController::class)->prefix('kegiatan')->name('kegiatan.')->group(function () {
+        Route::get('/', 'kegiatanIndex')->name('index');
+        Route::get('/tambah', 'kegiatanCreate')->name('create');
+        Route::post('/simpan', 'kegiatanStore')->name('store');
+        Route::get('/{kegiatan}/edit', 'kegiatanEdit')->name('edit');
+        Route::get('/{kegiatan}/detail', 'kegiatanShow')->name('show');
+        Route::put('/{kegiatan}', 'kegiatanUpdate')->name('update');
+        Route::delete('/{kegiatan}', 'kegiatanDestroy')->name('destroy');
+    });
 });
 
 
@@ -81,6 +108,12 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarran'])->prefix('kwarran
         Route::put('/{anggota}', 'anggotaUpdate')->name('update');
         Route::delete('/{anggota}', 'anggotaDestroy')->name('destroy');
     });
+
+    // Profil
+    Route::controller(KwarranController::class)->prefix('profil')->name('profil.')->group(function () {
+        Route::get('/', 'profilIndex')->name('index');
+        Route::post('/update', 'profilUpdate')->name('update');
+    });
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':Gudep'])->prefix('gudep')->name('gudep.')->group(function () {
@@ -95,5 +128,21 @@ Route::middleware(['auth', RoleMiddleware::class . ':Gudep'])->prefix('gudep')->
         Route::get('/{anggota}/detail', 'anggotaShow')->name('show');
         Route::put('/{anggota}', 'anggotaUpdate')->name('update');
         Route::delete('/{anggota}', 'anggotaDestroy')->name('destroy');
+    });
+
+    // Profil
+    Route::controller(GudepController::class)->prefix('profil')->name('profil.')->group(function () {
+        Route::get('/', 'profilIndex')->name('index');
+        Route::post('/update', 'profilUpdate')->name('update');
+    });
+
+    // Keuangan
+    Route::controller(GudepController::class)->prefix('keuangan')->name('keuangan.')->group(function () {
+        Route::get('/', 'keuanganIndex')->name('index');
+    });
+
+    // Keuangan
+    Route::controller(GudepController::class)->prefix('tentang')->name('tentang.')->group(function () {
+        Route::get('/', 'tentangIndex')->name('index');
     });
 });

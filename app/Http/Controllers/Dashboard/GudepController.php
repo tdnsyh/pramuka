@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Anggota;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class GudepController extends Controller
 {
@@ -119,5 +121,49 @@ class GudepController extends Controller
         return view('dashboard.gudep.anggota.show', compact('anggota'));
     }
 
+    // profil owner
+    public function profilIndex()
+    {
+        $user = Auth::user();
+        return view('dashboard.gudep.profil.index', compact('user'));
+    }
+
+    // update profil
+    public function profilUpdate(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|confirmed|min:6',
+        ]);
+
+        $data = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'updated_at' => now(),
+        ];
+
+        if (!empty($validated['password'])) {
+            $data['password'] = Hash::make($validated['password']);
+        }
+
+        DB::table('users')->where('id', $user->id)->update($data);
+
+        return back()->with('gudep', 'Profil berhasil diperbarui.');
+    }
+
+    // keuangan
+    public function keuanganIndex()
+    {
+        return view('dashboard.gudep.keuangan.index');
+    }
+
+    // tentang
+    public function tentangIndex()
+    {
+        return view('dashboard.gudep.tentang.index');
+    }
 
 }

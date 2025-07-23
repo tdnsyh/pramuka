@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Anggota;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class KwarcabController extends Controller
 {
@@ -216,5 +217,56 @@ class KwarcabController extends Controller
         $anggota->delete();
 
         return redirect()->route('kwarcab.anggota.index')->with('success', 'Anggota berhasil dihapus.');
+    }
+
+    // profil owner
+    public function profilIndex()
+    {
+        $user = Auth::user();
+        return view('dashboard.kwarcab.profil.index', compact('user'));
+    }
+
+    // update profil
+    public function profilUpdate(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|confirmed|min:6',
+        ]);
+
+        $data = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'updated_at' => now(),
+        ];
+
+        if (!empty($validated['password'])) {
+            $data['password'] = Hash::make($validated['password']);
+        }
+
+        DB::table('users')->where('id', $user->id)->update($data);
+
+        return back()->with('kwarcab', 'Profil berhasil diperbarui.');
+    }
+
+    // Keuangan
+    public function keuanganIndex()
+    {
+        return view('dashboard.kwarcab.keuangan.index');
+    }
+
+    // tentang
+    public function tentangIndex()
+    {
+        return view('dashboard.kwarcab.tentang.index');
+    }
+
+    // kegiatan
+    public function kegiatanIndex()
+    {
+        return view('dashboard.kwarcab.kegiatan.index');
     }
 }
