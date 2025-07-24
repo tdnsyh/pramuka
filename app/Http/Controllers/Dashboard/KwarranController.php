@@ -352,4 +352,19 @@ class KwarranController extends Controller
 
         return back()->with('kwarran', 'Profil berhasil diperbarui.');
     }
+
+    public function kegiatanIndex()
+    {
+        return view('dashboard.kwarran.kegiatan.index');
+    }
+
+    public function keuanganIndex()
+    {
+        return view('dashboard.kwarran.keuangan.index');
+    }
+
+    public function tentangIndex()
+    {
+        return view('dashboard.kwarran.tentang.index');
+    }
 }

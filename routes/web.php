@@ -114,6 +114,27 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarran'])->prefix('kwarran
         Route::get('/', 'profilIndex')->name('index');
         Route::post('/update', 'profilUpdate')->name('update');
     });
+
+    // Keuangan
+    Route::controller(KwarranController::class)->prefix('keuangan')->name('keuangan.')->group(function () {
+        Route::get('/', 'keuanganIndex')->name('index');
+    });
+
+    // tentang
+    Route::controller(KwarranController::class)->prefix('tentang')->name('tentang.')->group(function () {
+        Route::get('/', 'tentangIndex')->name('index');
+    });
+
+    // kegiatan
+    Route::controller(KwarranController::class)->prefix('kegiatan')->name('kegiatan.')->group(function () {
+        Route::get('/', 'kegiatanIndex')->name('index');
+        Route::get('/tambah', 'kegiatanCreate')->name('create');
+        Route::post('/simpan', 'kegiatanStore')->name('store');
+        Route::get('/{kegiatan}/edit', 'kegiatanEdit')->name('edit');
+        Route::get('/{kegiatan}/detail', 'kegiatanShow')->name('show');
+        Route::put('/{kegiatan}', 'kegiatanUpdate')->name('update');
+        Route::delete('/{kegiatan}', 'kegiatanDestroy')->name('destroy');
+    });
 });
 
 Route::middleware(['auth', RoleMiddleware::class . ':Gudep'])->prefix('gudep')->name('gudep.')->group(function () {
