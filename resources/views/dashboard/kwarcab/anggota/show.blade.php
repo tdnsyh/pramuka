@@ -1,4 +1,6 @@
 @extends('layouts.kwarcab')
+@section('title', 'Detail Anggota')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">

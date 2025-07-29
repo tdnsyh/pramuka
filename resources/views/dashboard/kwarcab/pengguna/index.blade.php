@@ -1,4 +1,6 @@
 @extends('layouts.kwarcab')
+@section('title', 'Daftar Pengguna')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -6,7 +8,7 @@
                 <h1>Pengguna sistem</h1>
                 <a href="/kwarcab/pengguna/tambah" class="btn text-primary bg-primary-subtle mt-2 rounded">Tambah baru</a>
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table" id="table1">
                         <thead class="table-primary border-0">
                             <tr>
                                 <th>Nama</th>
@@ -37,3 +39,15 @@
         @include('partials.footer')
     </div>
 @endsection
+
+@push('script')
+    <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables.js') }}"></script>
+@endpush
+
+@push('style')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/table-datatable-jquery.css') }}">
+@endpush

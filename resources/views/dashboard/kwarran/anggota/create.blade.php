@@ -1,4 +1,6 @@
 @extends('layouts.kwarran')
+@section('title', 'Tambah Anggota')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">

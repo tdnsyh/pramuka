@@ -1,4 +1,6 @@
 @extends('layouts.kwarcab')
+@section('title', 'Daftar Wilayah')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -10,7 +12,7 @@
                     <div class="alert alert-success mt-3">{{ session('success') }}</div>
                 @endif
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table" id="table1">
                         <thead class="table-primary border-0">
                             <tr>
                                 <th>Nama</th>
@@ -26,15 +28,12 @@
                                     <td>{{ ucfirst($region->type) }}</td>
                                     <td>{{ $region->parent->name ?? '-' }}</td>
                                     <td>
-                                        <a href="/kwarcab/wilayah/{{ $region->id }}/edit"
-                                            class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="/kwarcab/wilayah/{{ $region->id }}" method="POST"
-                                            style="display:inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Yakin hapus?')">Hapus</button>
-                                        </form>
+                                        <a href="{{ route('kwarcab.wilayah.edit', $region) }}"
+                                            class="btn btn-warning btn-sm" title="Edit Anggota">
+                                            <i class="ti ti-pencil"></i>
+                                        </a>
+                                        <x-modal-hapus :id="$region->id" :judul="$region->name" :route="route('kwarcab.wilayah.destroy', $region)"
+                                            :deskripsi="'Apakah Anda yakin ingin menghapus wilayah ' . e($region->name)" />
                                     </td>
                                 </tr>
                             @endforeach
@@ -46,3 +45,15 @@
         @include('partials.footer')
     </div>
 @endsection
+
+@push('script')
+    <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables.js') }}"></script>
+@endpush
+
+@push('style')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/table-datatable-jquery.css') }}">
+@endpush

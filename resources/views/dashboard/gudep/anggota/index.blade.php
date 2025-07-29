@@ -1,4 +1,6 @@
 @extends('layouts.gudep')
+@section('title', 'Data Anggota')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -7,12 +9,8 @@
                 <a href="{{ route('gudep.anggota.create') }}" class="btn bg-primary-subtle text-primary mt-2 rounded">Tambah
                     Anggota</a>
 
-                @if (session('success'))
-                    <div class="alert alert-success mt-3">{{ session('success') }}</div>
-                @endif
-
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table" id="table1">
                         <thead class="table-primary border-0">
                             <tr>
                                 <th>Nama</th>
@@ -54,3 +52,15 @@
         @include('partials.footer')
     </div>
 @endsection
+
+@push('script')
+    <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables.js') }}"></script>
+@endpush
+
+@push('style')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/table-datatable-jquery.css') }}">
+@endpush

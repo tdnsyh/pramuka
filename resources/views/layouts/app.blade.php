@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard</title>
+    <title>@yield('title', 'Default Title') - Pramuka Kwartir Cabang Kab. Tasikmalaya</title>
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />

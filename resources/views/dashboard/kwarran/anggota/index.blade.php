@@ -1,4 +1,6 @@
 @extends('layouts.kwarran')
+@section('title', 'Daftar Anggota')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -14,7 +16,7 @@
                         Anggota</a>
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table" id="table1">
                         <thead class="table-primary border-0">
                             <tr>
                                 <th>Nama</th>
@@ -34,16 +36,17 @@
                                     <td>{{ $a->golongan }}</td>
                                     <td>{{ ucfirst($a->status) }}</td>
                                     <td>
-                                        <a href="{{ url('/kwarran/anggota/' . $a->id . '/detail') }}"
-                                            class="btn btn-info btn-sm">Detail</a>
-                                        <a href="{{ url('/kwarran/anggota/' . $a->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="{{ url('/kwarran/anggota/' . $a->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf @method('DELETE')
-                                            <button class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                                        </form>
+                                        <a href="{{ route('kwarran.anggota.show', $a) }}" class="btn btn-info btn-sm"
+                                            title="Lihat Detail">
+                                            <i class="ti ti-eye"></i>
+                                        </a>
+
+                                        <a href="{{ route('kwarran.anggota.edit', $a) }}" class="btn btn-warning btn-sm"
+                                            title="Edit Anggota">
+                                            <i class="ti ti-pencil"></i>
+                                        </a>
+                                        <x-modal-hapus :id="$a->id" :judul="$a->name" :route="route('kwarran.anggota.destroy', $a)"
+                                            :deskripsi="'Apakah Anda yakin ingin menghapus anggota ' . e($a->name)" />
                                     </td>
                                 </tr>
                             @endforeach
@@ -55,3 +58,15 @@
         @include('partials.footer')
     </div>
 @endsection
+
+@push('script')
+    <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables.js') }}"></script>
+@endpush
+
+@push('style')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/table-datatable-jquery.css') }}">
+@endpush

@@ -1,4 +1,6 @@
 @extends('layouts.gudep')
+@section('title', 'Tentang')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">

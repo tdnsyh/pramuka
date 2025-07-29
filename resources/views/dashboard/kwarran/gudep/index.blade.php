@@ -1,4 +1,6 @@
 @extends('layouts.kwarran')
+@section('title', 'Daftar Gudep')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -24,14 +26,12 @@
                                 <tr>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <a href="/kwarran/gudep/{{ $item->id }}/edit"
-                                            class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="/kwarran/gudep/{{ $item->id }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Hapus Gudep ini?')">Hapus</button>
-                                        </form>
+                                        <a href="{{ route('kwarran.gudep.edit', $item) }}" class="btn btn-warning btn-sm"
+                                            title="Edit Anggota">
+                                            <i class="ti ti-pencil"></i>
+                                        </a>
+                                        <x-modal-hapus :id="$item->id" :judul="$item->name" :route="route('kwarran.gudep.destroy', $item)"
+                                            :deskripsi="'Apakah Anda yakin ingin menghapus gudep ' . e($item->name)" />
                                     </td>
                                 </tr>
                             @endforeach

@@ -3,31 +3,35 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Anggota;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Models\Anggota;
 
 class GudepController extends Controller
 {
+    // dashboard
     public function gudepDashboard()
     {
         return view('dashboard.gudep.index');
     }
 
+    // daftar anggota
     public function anggotaIndex()
     {
         $anggota = Anggota::where('region_id', Auth::user()->region_id)->get();
         return view('dashboard.gudep.anggota.index', compact('anggota'));
     }
 
+    // form tambah anggota
     public function anggotaCreate()
     {
         return view('dashboard.gudep.anggota.create');
     }
 
+    // logika simpan anggota
     public function anggotaStore(Request $request)
     {
         $request->validate([
@@ -49,9 +53,10 @@ class GudepController extends Controller
 
         Anggota::create($data);
 
-        return redirect('/gudep/anggota')->with('success', 'Anggota berhasil ditambahkan');
+        return redirect()->route('gudep.anggota.index')->with('success', 'Anggota berhasil ditambahkan');
     }
 
+    // form edit anggota
     public function anggotaEdit($id)
     {
         $anggota = Anggota::where('id', $id)
@@ -61,6 +66,7 @@ class GudepController extends Controller
         return view('dashboard.gudep.anggota.edit', compact('anggota'));
     }
 
+    // logika update anggota
     public function anggotaUpdate(Request $request, $id)
     {
         $anggota = Anggota::where('id', $id)
@@ -94,9 +100,10 @@ class GudepController extends Controller
 
         $anggota->save();
 
-        return redirect('/gudep/anggota')->with('success', 'Data anggota berhasil diperbarui');
+        return redirect()->route('gudep.anggota.index')->with('success', 'Data anggota berhasil diperbarui');
     }
 
+    // logika hapus anggota
     public function anggotaDestroy($id)
     {
         $anggota = Anggota::where('id', $id)
@@ -109,9 +116,10 @@ class GudepController extends Controller
 
         $anggota->delete();
 
-        return redirect('/gudep/anggota')->with('success', 'Anggota berhasil dihapus');
+        return redirect()->route('gudep.anggota.index')->with('success', 'Anggota berhasil dihapus');
     }
 
+    // detail anggota
     public function anggotaShow($id)
     {
         $anggota = Anggota::where('id', $id)
@@ -121,7 +129,7 @@ class GudepController extends Controller
         return view('dashboard.gudep.anggota.show', compact('anggota'));
     }
 
-    // profil owner
+    // profil akun
     public function profilIndex()
     {
         $user = Auth::user();

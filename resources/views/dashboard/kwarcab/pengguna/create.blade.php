@@ -1,4 +1,6 @@
 @extends('layouts.kwarcab')
+@section('title', 'Tambah Pengguna')
+
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -69,34 +71,3 @@
         @include('partials.footer')
     </div>
 @endsection
-
-@push('script')
-    <script>
-        const roleSelect = document.getElementById('role_id');
-        const regionSelect = document.getElementById('region_id');
-        const allRegionOptions = Array.from(regionSelect.querySelectorAll('option'));
-
-        function filterRegions(roleType) {
-            regionSelect.innerHTML = '<option value="">-- Pilih Wilayah --</option>';
-
-            allRegionOptions.forEach(opt => {
-                const type = opt.dataset.type;
-                const parent = opt.dataset.parent;
-
-                if (roleType === 'Kwarcab' && type === 'kwarcab') {
-                    regionSelect.appendChild(opt);
-                } else if (roleType === 'Kwarran' && type === 'kwarran') {
-                    regionSelect.appendChild(opt);
-                } else if (roleType === 'Gudep' && type === 'gudep') {
-                    regionSelect.appendChild(opt);
-                }
-            });
-        }
-
-        roleSelect.addEventListener('change', function() {
-            const selected = this.options[this.selectedIndex];
-            const roleType = selected.dataset.type;
-            filterRegions(roleType);
-        });
-    </script>
-@endpush
