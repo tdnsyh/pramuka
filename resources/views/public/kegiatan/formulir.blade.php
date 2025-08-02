@@ -2,6 +2,7 @@
 @section('title', 'Formulir pendaftaran kegiatan ' . $kegiatan->judul)
 
 @section('content')
+    @include('partials.navbar')
     <section class="py-4">
         <div class="container">
             <h2>Formulir Pendaftaran - {{ $kegiatan->judul }}</h2>

@@ -17,6 +17,7 @@
         urlencode($kegiatan->lokasi);
 @endphp
 @section('content')
+    @include('partials.navbar')
     <section class="py-4">
         <div class="container">
             <div class="row row-cols-1 row-cols-md-2 g-4">

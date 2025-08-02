@@ -7,12 +7,11 @@
             <div class="card-body">
                 <h1>Daftar Anggota Gudep</h1>
                 <div class="d-flex gap-2">
-                    <a href="{{ url('/kwarran/anggota/tambah') }}"
-                        class="btn bg-primary-subtle text-primary rounded mt-2">Tambah
+                    <a href="{{ route('kwarran.anggota.create') }}" class="btn btn-primary rounded">Tambah
                         Anggota</a>
-                    <a href="{{ url('/kwarran/anggota/') }}" class="btn bg-success-subtle text-success rounded mt-2">Import
+                    <a href="{{ route('kwarran.anggota.import') }}" class="btn btn-success rounded">Import
                         Anggota</a>
-                    <a href="{{ url('/kwarran/anggota/') }}" class="btn bg-info-subtle text-info rounded mt-2">Export
+                    <a href="{{ route('kwarran.anggota.export') }}" class="btn btn-warning rounded">Export
                         Anggota</a>
                 </div>
                 <div class="table-responsive mt-3">

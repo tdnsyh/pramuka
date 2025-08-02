@@ -2,6 +2,7 @@
 @section('title', 'Home')
 
 @section('content')
+    @include('partials.navbar')
     <div class="section py-4">
         <div class="container">
             <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit amet doloremque atque id repellat fugit

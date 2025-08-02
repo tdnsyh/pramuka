@@ -7,11 +7,11 @@
             <div class="card-body">
                 <h1>Daftar Anggota</h1>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('kwarcab.anggota.create') }}" class="btn text-primary bg-primary-subtle rounded">Tambah
+                    <a href="{{ route('kwarcab.anggota.create') }}" class="btn btn-primary rounded">Tambah
                         Anggota</a>
-                    <a href="{{ url('/kwarcab/anggota/') }}" class="btn bg-success-subtle text-success rounded">Import
+                    <a href="{{ route('kwarcab.anggota.import') }}" class="btn btn-success rounded">Import
                         Anggota</a>
-                    <a href="{{ url('/kwarcab/anggota/') }}" class="btn bg-info-subtle text-info rounded">Export
+                    <a href="{{ route('kwarcab.anggota.export') }}" class="btn btn-warning rounded">Export
                         Anggota</a>
                 </div>
                 @if (session('success'))
@@ -47,7 +47,7 @@
                                             title="Edit Anggota">
                                             <i class="ti ti-pencil"></i>
                                         </a>
-                                        <x-modal-hapus :id="$a->id" :judul="$a->name" :route="route('kwarran.kwarcab.destroy', $a)"
+                                        <x-modal-hapus :id="$a->id" :judul="$a->name" :route="route('kwarcab.anggota.destroy', $a)"
                                             :deskripsi="'Apakah Anda yakin ingin menghapus anggota ' . e($a->name)" />
                                     </td>
                                 </tr>

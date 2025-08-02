@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\KegiatanPendaftaran;
 use App\Models\Kegiatan;
+use App\Models\Region;
 
 class PublicController extends Controller
 {
@@ -89,4 +90,39 @@ class PublicController extends Controller
             'kode' => $kode,
         ]);
     }
+
+    public function kwarranIndex()
+    {
+        $kwarrans = Region::where('type', 'kwarran')->get();
+        return view('public.kwarran.index', compact('kwarrans'));
+    }
+
+    public function gudepIndex()
+    {
+        $gudeps = Region::where('type', 'gudep')->get();
+        return view('public.gudep.index', compact('gudeps'));
+    }
+
+    public function kwarranShow(Region $kwarran)
+    {
+        abort_unless($kwarran->type === 'kwarran', 404);
+
+        $about = $kwarran->about;
+        $gudepList = Region::where('parent_id', $kwarran->id)
+            ->where('type', 'gudep')
+            ->get();
+
+        return view('public.kwarran.show', compact('kwarran', 'about', 'gudepList'));
+    }
+
+    public function gudepShow(Region $gudep)
+    {
+        abort_unless($gudep->type === 'gudep', 404);
+
+        $kwarran = $gudep->parent;
+        $about = $gudep->about;
+
+        return view('public.kwarran.gudep', compact('gudep', 'kwarran', 'about'));
+    }
+
 }

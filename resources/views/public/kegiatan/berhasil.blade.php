@@ -2,6 +2,7 @@
 @section('title', 'Berhasil daftar')
 
 @section('content')
+    @include('partials.navbar')
     <section class="py-4">
         <div class="container">
             <h1 class="text-success fw-semibold">Pendaftaran Berhasil</h1>

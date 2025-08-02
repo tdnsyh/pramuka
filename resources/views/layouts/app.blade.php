@@ -8,10 +8,12 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/seodashlogo.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+
     @stack('style')
 </head>
 
 <body>
+    @include('partials.alert')
 
     {{-- konten --}}
     @yield('content')

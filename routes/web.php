@@ -20,6 +20,16 @@ Route::controller(PublicController::class)->prefix('kegiatan')->name('kegiatan.'
     Route::get('/pendaftaran/{slug}/berhasil/{kode}', 'kegiatanBerhasil')->name('berhasil');
 });
 
+Route::controller(PublicController::class)->prefix('kwarran')->name('kwarran.')->group(function () {
+    Route::get('/data', 'kwarranIndex')->name('data');
+    Route::get('/{kwarran}/detail', 'kwarranShow')->name('show');
+});
+
+Route::controller(PublicController::class)->prefix('gudep')->name('gudep.')->group(function () {
+    Route::get('/data', 'gudepIndex')->name('data');
+    Route::get('/{gudep}/detail', 'gudepShow')->name('show');
+});
+
 // route auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -51,6 +61,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarcab'])->prefix('kwarcab
     // anggota
     Route::controller(KwarcabController::class)->prefix('anggota')->name('anggota.')->group(function () {
         Route::get('/', 'anggotaIndex')->name('index');
+        Route::get('/import', 'anggotaImportForm')->name('import');
+        Route::get('/export', 'anggotaExport')->name('export');
+        Route::post('/import', 'anggotaImport')->name('submit');
         Route::get('/tambah', 'anggotaCreate')->name('create');
         Route::post('/simpan', 'anggotaStore')->name('store');
         Route::get('/{anggota}/edit', 'anggotaEdit')->name('edit');
@@ -81,6 +94,11 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarcab'])->prefix('kwarcab
     // Keuangan
     Route::controller(KwarcabController::class)->prefix('keuangan')->name('keuangan.')->group(function () {
         Route::get('/', 'keuanganIndex')->name('index');
+        Route::get('/tambah', 'keuanganCreate')->name('create');
+        Route::post('/simpan', 'keuanganStore')->name('store');
+        Route::get('/{keuangan}/edit', 'keuanganEdit')->name('edit');
+        Route::put('/{keuangan}', 'keuanganUpdate')->name('update');
+        Route::delete('/{keuangan}', 'keuanganDestroy')->name('destroy');
     });
 
     // tentang
@@ -117,6 +135,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarran'])->prefix('kwarran
     // anggota
     Route::controller(KwarranController::class)->prefix('anggota')->name('anggota.')->group(function () {
         Route::get('/', 'anggotaIndex')->name('index');
+        Route::get('/import', 'anggotaImportForm')->name('import');
+        Route::get('/export', 'anggotaExport')->name('export');
+        Route::post('/import', 'anggotaImport')->name('submit');
         Route::get('/tambah', 'anggotaCreate')->name('create');
         Route::post('/simpan', 'anggotaStore')->name('store');
         Route::get('/{anggota}/edit', 'anggotaEdit')->name('edit');
@@ -142,11 +163,17 @@ Route::middleware(['auth', RoleMiddleware::class . ':Kwarran'])->prefix('kwarran
     Route::controller(KwarranController::class)->prefix('profil')->name('profil.')->group(function () {
         Route::get('/', 'profilIndex')->name('index');
         Route::post('/update', 'profilUpdate')->name('update');
+        Route::post('/update-about', 'aboutUpdate')->name('about');
     });
 
     // Keuangan
     Route::controller(KwarranController::class)->prefix('keuangan')->name('keuangan.')->group(function () {
         Route::get('/', 'keuanganIndex')->name('index');
+        Route::get('/tambah', 'keuanganCreate')->name('create');
+        Route::post('/simpan', 'keuanganStore')->name('store');
+        Route::get('/{keuangan}/edit', 'keuanganEdit')->name('edit');
+        Route::put('/{keuangan}', 'keuanganUpdate')->name('update');
+        Route::delete('/{keuangan}', 'keuanganDestroy')->name('destroy');
     });
 
     // tentang
@@ -163,6 +190,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':Gudep'])->prefix('gudep')->
     // anggota
     Route::controller(GudepController::class)->prefix('anggota')->name('anggota.')->group(function () {
         Route::get('/', 'anggotaIndex')->name('index');
+        Route::get('/import', 'anggotaImportForm')->name('import');
+        Route::get('/export', 'anggotaExport')->name('export');
+        Route::post('/import', 'anggotaImport')->name('submit');
         Route::get('/tambah', 'anggotaCreate')->name('create');
         Route::post('/simpan', 'anggotaStore')->name('store');
         Route::get('/{anggota}/edit', 'anggotaEdit')->name('edit');
@@ -175,11 +205,17 @@ Route::middleware(['auth', RoleMiddleware::class . ':Gudep'])->prefix('gudep')->
     Route::controller(GudepController::class)->prefix('profil')->name('profil.')->group(function () {
         Route::get('/', 'profilIndex')->name('index');
         Route::post('/update', 'profilUpdate')->name('update');
+        Route::post('/update-about', 'aboutUpdate')->name('about');
     });
 
     // Keuangan
     Route::controller(GudepController::class)->prefix('keuangan')->name('keuangan.')->group(function () {
         Route::get('/', 'keuanganIndex')->name('index');
+        Route::get('/tambah', 'keuanganCreate')->name('create');
+        Route::post('/simpan', 'keuanganStore')->name('store');
+        Route::get('/{keuangan}/edit', 'keuanganEdit')->name('edit');
+        Route::put('/{keuangan}', 'keuanganUpdate')->name('update');
+        Route::delete('/{keuangan}', 'keuanganDestroy')->name('destroy');
     });
 
     // Keuangan

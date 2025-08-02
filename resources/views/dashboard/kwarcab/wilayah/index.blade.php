@@ -6,11 +6,7 @@
         <div class="card">
             <div class="card-body">
                 <h1>Daftar Wilayah</h1>
-                <a href="/kwarcab/wilayah/tambah" class="btn mt-2 bg-primary-subtle text-primary rounded">Tambah Wilayah</a>
-
-                @if (session('success'))
-                    <div class="alert alert-success mt-3">{{ session('success') }}</div>
-                @endif
+                <a href="{{ route('kwarcab.wilayah.create') }}" class="btn btn-primary rounded">Tambah Wilayah</a>
                 <div class="table-responsive mt-3">
                     <table class="table" id="table1">
                         <thead class="table-primary border-0">
@@ -28,8 +24,8 @@
                                     <td>{{ ucfirst($region->type) }}</td>
                                     <td>{{ $region->parent->name ?? '-' }}</td>
                                     <td>
-                                        <a href="{{ route('kwarcab.wilayah.edit', $region) }}"
-                                            class="btn btn-warning btn-sm" title="Edit Anggota">
+                                        <a href="{{ route('kwarcab.wilayah.edit', $region) }}" class="btn btn-warning btn-sm"
+                                            title="Edit Anggota">
                                             <i class="ti ti-pencil"></i>
                                         </a>
                                         <x-modal-hapus :id="$region->id" :judul="$region->name" :route="route('kwarcab.wilayah.destroy', $region)"

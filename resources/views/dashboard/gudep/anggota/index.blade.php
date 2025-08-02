@@ -6,9 +6,14 @@
         <div class="card">
             <div class="card-body">
                 <h1>Data Anggota</h1>
-                <a href="{{ route('gudep.anggota.create') }}" class="btn bg-primary-subtle text-primary mt-2 rounded">Tambah
-                    Anggota</a>
-
+                <div class="d-flex gap-2">
+                    <a href="{{ route('gudep.anggota.create') }}" class="btn btn-primary rounded">Tambah
+                        Anggota</a>
+                    <a href="{{ route('gudep.anggota.import') }}" class="btn btn-success rounded">Import
+                        Anggota</a>
+                    <a href="{{ route('gudep.anggota.export') }}" class="btn btn-warning rounded">Export
+                        Anggota</a>
+                </div>
                 <div class="table-responsive mt-3">
                     <table class="table" id="table1">
                         <thead class="table-primary border-0">

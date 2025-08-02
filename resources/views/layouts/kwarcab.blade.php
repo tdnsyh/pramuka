@@ -18,7 +18,8 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="/kwarcab" class="text-nowrap logo-img">
-                        <img src="{{ asset('assets/images/logos/logo-light.svg') }}" alt="" />
+                        <img src="{{ asset('assets/images/logos/codemalaya.png') }}" height="40" class="mt-4"
+                            alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -33,8 +34,9 @@
                         </li>
 
                         <!-- Dashboard -->
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/dashboard" aria-expanded="false">
+                        <li class="sidebar-item @if (Request::is('kwarcab/dashboard')) active @endif">
+                            <a class="sidebar-link @if (Request::is('kwarcab/dashboard')) active @endif"
+                                href="/kwarcab/dashboard" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:home-smile-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
@@ -47,8 +49,9 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
                             <span class="hide-menu">data</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/anggota" aria-expanded="false">
+                        <li class="sidebar-item @if (Request::is('kwarcab/anggota*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('kwarcab/anggota*')) active @endif"
+                                href="/kwarcab/anggota" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:users-group-rounded-bold-duotone"
                                         class="fs-6"></iconify-icon>
@@ -58,8 +61,9 @@
                         </li>
 
                         <!-- Manajemen Keuangan -->
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/keuangan" aria-expanded="false">
+                        <li class="sidebar-item @if (Request::is('kwarcab/keuangan*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('kwarcab/keuangan*')) active @endif"
+                                href="/kwarcab/keuangan" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:wallet-money-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
@@ -68,53 +72,52 @@
                         </li>
 
                         <!-- Manajemen Kegiatan -->
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/kegiatan" aria-expanded="false">
+                        <li class="sidebar-item @if (Request::is('kwarcab/kegiatan*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('kwarcab/kegiatan*')) active @endif"
+                                href="/kwarcab/kegiatan" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:calendar-add-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
                                 <span class="hide-menu">Kegiatan</span>
                             </a>
                         </li>
+
+                        <!-- Master Data -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
                             <span class="hide-menu">master data</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/wilayah" aria-expanded="false">
+                        <li class="sidebar-item @if (Request::is('kwarcab/wilayah*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('kwarcab/wilayah*')) active @endif"
+                                href="/kwarcab/wilayah" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
                                 <span class="hide-menu">Wilayah</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/pengguna" aria-expanded="false">
+                        <li class="sidebar-item @if (Request::is('kwarcab/pengguna*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('kwarcab/pengguna*')) active @endif"
+                                href="/kwarcab/pengguna" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
                                 <span class="hide-menu">Manajemen User</span>
                             </a>
                         </li>
-                        <!-- Logout -->
+
+                        <!-- Profil / Akun -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
                             <span class="hide-menu">Akun</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/profil" aria-expanded="false">
+                        <li class="sidebar-item @if (Request::is('kwarcab/profil*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('kwarcab/profil*')) active @endif"
+                                href="/kwarcab/profil" aria-expanded="false">
                                 <span>
                                     <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
                                 </span>
                                 <span class="hide-menu">Profil</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/kwarcab/tentang" aria-expanded="false">
-                                <span>
-                                    <iconify-icon icon="solar:user-plus-bold-duotone" class="fs-6"></iconify-icon>
-                                </span>
-                                <span class="hide-menu">Tentang Kwarcab</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -158,6 +161,8 @@
                     </div>
                 </nav>
             </header>
+            @include('partials.alert')
+
             @yield('content')
         </div>
     </div>

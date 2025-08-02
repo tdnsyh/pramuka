@@ -26,4 +26,9 @@ class Region extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function about()
+    {
+        return $this->hasOne(RegionAbout::class);
+    }
 }

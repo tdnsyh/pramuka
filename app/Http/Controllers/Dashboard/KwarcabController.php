@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\AnggotaExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -15,13 +16,59 @@ use App\Models\Region;
 use App\Models\Anggota;
 use App\Models\Kegiatan;
 use App\Models\KegiatanGaleri;
+use App\Imports\AnggotaImport;
+use App\Models\Keuangan;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KwarcabController extends Controller
 {
     // dashboard
     public function kwarcabDashboard()
     {
-        return view('dashboard.kwarcab.index');
+        $totalKwarran = Region::where('type', 'kwarran')->count();
+        $totalGudep = Region::where('type', 'gudep')->count();
+
+        $totalAnggota = Anggota::count();
+
+        $siaga = Anggota::where('golongan', 'siaga')->count();
+        $penggalang = Anggota::where('golongan', 'penggalang')->count();
+        $penegak = Anggota::where('golongan', 'penegak')->count();
+        $pandega = Anggota::where('golongan', 'pandega')->count();
+
+        $aktif = Anggota::where('status', 'aktif')->count();
+        $nonaktif = Anggota::where('status', 'nonaktif')->count();
+
+        $totalKegiatan = Kegiatan::count();
+        $kegiatanKwarcab = Kegiatan::whereNull('region_id')->count();
+        $kegiatanKwarran = Kegiatan::whereNotNull('region_id')->count();
+
+        $totalPemasukan = Keuangan::whereNull('region_id')
+            ->where('jenis', 'pemasukan')
+            ->sum('jumlah');
+
+        $totalPengeluaran = Keuangan::whereNull('region_id')
+            ->where('jenis', 'pengeluaran')
+            ->sum('jumlah');
+
+        $saldo = $totalPemasukan - $totalPengeluaran;
+
+        return view('dashboard.kwarcab.index', compact(
+            'totalKwarran',
+            'totalGudep',
+            'totalAnggota',
+            'siaga',
+            'penggalang',
+            'penegak',
+            'pandega',
+            'aktif',
+            'nonaktif',
+            'totalKegiatan',
+            'kegiatanKwarcab',
+            'kegiatanKwarran',
+            'totalPemasukan',
+            'totalPengeluaran',
+            'saldo'
+        ));
     }
 
     // pengguna
@@ -222,6 +269,32 @@ class KwarcabController extends Controller
         return redirect()->route('kwarcab.anggota.index')->with('success', 'Anggota berhasil dihapus.');
     }
 
+    // form import anggota
+    public function anggotaImportForm()
+    {
+        $regions = Region::all();
+        return view('dashboard.kwarcab.anggota.import', compact('regions'));
+    }
+
+    // logika import anggota
+    public function anggotaImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls',
+            'region_id' => 'required|exists:region,id',
+        ]);
+
+        Excel::import(new AnggotaImport($request->region_id), $request->file('file'));
+
+        return redirect()->route('kwarcab.anggota.index')->with('success', 'Data anggota berhasil diimport.');
+    }
+
+    // logika export anggota
+    public function anggotaExport()
+    {
+        return Excel::download(new AnggotaExport, 'data_anggota.xlsx');
+    }
+
     // profil akun
     public function profilIndex()
     {
@@ -255,10 +328,84 @@ class KwarcabController extends Controller
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
 
-    // Keuangan
+
+    // Tampilkan semua data keuangan untuk region user saat ini
     public function keuanganIndex()
     {
-        return view('dashboard.kwarcab.keuangan.index');
+        $regionId = Auth::user()->region_id;
+
+        $keuangan = Keuangan::where('region_id', $regionId)
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        return view('dashboard.kwarcab.keuangan.index', compact('keuangan'));
+    }
+
+    // Form tambah data
+    public function keuanganCreate()
+    {
+        return view('dashboard.kwarcab.keuangan.create');
+    }
+
+    // Simpan data baru
+    public function keuanganStore(Request $request)
+    {
+        $request->validate([
+            'jenis' => 'required|in:pemasukan,pengeluaran',
+            'kategori' => 'required|string|max:100',
+            'jumlah' => 'required|numeric|min:0',
+            'tanggal' => 'required|date',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        Keuangan::create([
+            'region_id' => Auth::user()->region_id,
+            'user_id' => Auth::id(),
+            'jenis' => $request->jenis,
+            'kategori' => $request->kategori,
+            'jumlah' => $request->jumlah,
+            'tanggal' => $request->tanggal,
+            'keterangan' => $request->keterangan,
+        ]);
+
+        return redirect()->route('kwarcab.keuangan.index')->with('success', 'Data keuangan berhasil ditambahkan.');
+    }
+
+    // Form edit
+    public function keuanganEdit(Keuangan $keuangan)
+    {
+        return view('dashboard.kwarcab.keuangan.edit', compact('keuangan'));
+    }
+
+    // Update data
+    public function keuanganUpdate(Request $request, Keuangan $keuangan)
+    {
+
+        $request->validate([
+            'jenis' => 'required|in:pemasukan,pengeluaran',
+            'kategori' => 'required|string|max:100',
+            'jumlah' => 'required|numeric|min:0',
+            'tanggal' => 'required|date',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $keuangan->update([
+            'jenis' => $request->jenis,
+            'kategori' => $request->kategori,
+            'jumlah' => $request->jumlah,
+            'tanggal' => $request->tanggal,
+            'keterangan' => $request->keterangan,
+        ]);
+
+        return redirect()->route('kwarcab.keuangan.index')->with('success', 'Data keuangan berhasil diperbarui.');
+    }
+
+    // Hapus data
+    public function keuanganDestroy(Keuangan $keuangan)
+    {
+        $keuangan->delete();
+
+        return redirect()->route('kwarcab.keuangan.index')->with('success', 'Data keuangan berhasil dihapus.');
     }
 
     // tentang

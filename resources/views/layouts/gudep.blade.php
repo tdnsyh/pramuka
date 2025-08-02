@@ -8,6 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/seodashlogo.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+
     @stack('style')
 </head>
 
@@ -17,8 +18,9 @@
         <aside class="left-sidebar">
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="/gudep" class="text-nowrap logo-img">
-                        <img src="{{ asset('assets/images/logos/logo-light.svg') }}" alt="" />
+                    <a href="/kwarcab" class="text-nowrap logo-img">
+                        <img src="{{ asset('assets/images/logos/codemalaya.png') }}" height="40" class="mt-4"
+                            alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -30,46 +32,49 @@
                                 class="hide-menu">Home</span>
                         </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/gudep/dashboard">
+                        <li class="sidebar-item @if (Request::is('gudep/dashboard')) active @endif">
+                            <a class="sidebar-link @if (Request::is('gudep/dashboard')) active @endif"
+                                href="/gudep/dashboard">
                                 <span><iconify-icon icon="solar:home-smile-bold-duotone"
                                         class="fs-6"></iconify-icon></span>
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
-                                class="hide-menu">data</span>
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
+                            <span class="hide-menu">data</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/gudep/anggota">
+
+                        <li class="sidebar-item @if (Request::is('gudep/anggota*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('gudep/anggota*')) active @endif"
+                                href="/gudep/anggota">
                                 <span><iconify-icon icon="solar:users-group-rounded-bold-duotone"
                                         class="fs-6"></iconify-icon></span>
                                 <span class="hide-menu">Anggota Gudep</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/gudep/keuangan">
+                        <li class="sidebar-item @if (Request::is('gudep/keuangan*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('gudep/keuangan*')) active @endif"
+                                href="/gudep/keuangan">
                                 <span><iconify-icon icon="solar:wallet-bold-duotone"
                                         class="fs-6"></iconify-icon></span>
                                 <span class="hide-menu">Keuangan</span>
                             </a>
                         </li>
-                        <li class="nav-small-cap"><i class="ti ti-dots nav-small-cap-icon fs-6"></i><span
-                                class="hide-menu">lainnya</span>
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
+                            <span class="hide-menu">lainnya</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/gudep/profil">
+
+                        <li class="sidebar-item @if (Request::is('gudep/profil*')) active @endif">
+                            <a class="sidebar-link @if (Request::is('gudep/profil*')) active @endif"
+                                href="/gudep/profil">
                                 <span><iconify-icon icon="solar:wallet-bold-duotone"
                                         class="fs-6"></iconify-icon></span>
                                 <span class="hide-menu">Profil</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/gudep/tentang">
-                                <span><iconify-icon icon="solar:wallet-bold-duotone"
-                                        class="fs-6"></iconify-icon></span>
-                                <span class="hide-menu">Tentang Gudep</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -119,6 +124,9 @@
                     </div>
                 </nav>
             </header>
+
+            @include('partials.alert')
+
             @yield('content')
         </div>
     </div>
