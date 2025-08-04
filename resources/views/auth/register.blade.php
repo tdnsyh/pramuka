@@ -6,7 +6,7 @@
         <div class="col-md-5 col bg-white d-flex align-items-center min-vh-100">
             <div class="px-5">
                 <a href="/register" class="d-block mb-3">
-                    <img src="https://sman4-tsm.sch.id/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-30-at-09.55.41-600x450.jpeg"
+                    <img src="https://images.seeklogo.com/logo-png/23/1/gerakan-pramuka-logo-png_seeklogo-234983.png"
                         class="border-0 rounded object-fit-cover" width="150" alt="Logo">
                 </a>
                 <h3 class="fw-semibold">Pengguna baru?</h3>

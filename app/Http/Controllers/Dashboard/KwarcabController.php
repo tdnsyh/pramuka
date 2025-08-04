@@ -52,6 +52,20 @@ class KwarcabController extends Controller
 
         $saldo = $totalPemasukan - $totalPengeluaran;
 
+        $pemasukanBulanan = DB::table('keuangan')
+            ->selectRaw("DATE_FORMAT(tanggal, '%Y-%m') as bulan, SUM(jumlah) as total")
+            ->where('jenis', 'pemasukan')
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->pluck('total', 'bulan');
+
+        $pengeluaranBulanan = DB::table('keuangan')
+            ->selectRaw("DATE_FORMAT(tanggal, '%Y-%m') as bulan, SUM(jumlah) as total")
+            ->where('jenis', 'pengeluaran')
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->pluck('total', 'bulan');
+
         return view('dashboard.kwarcab.index', compact(
             'totalKwarran',
             'totalGudep',
@@ -67,7 +81,9 @@ class KwarcabController extends Controller
             'kegiatanKwarran',
             'totalPemasukan',
             'totalPengeluaran',
-            'saldo'
+            'saldo',
+            'pemasukanBulanan',
+            'pengeluaranBulanan'
         ));
     }
 

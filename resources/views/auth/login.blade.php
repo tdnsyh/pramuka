@@ -6,11 +6,11 @@
         <div class="card border shadow-none col-md-4">
             <div class="card-body">
                 <a href="/login" class="d-block mb-3 text-center">
-                    <img src="https://sman4-tsm.sch.id/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-30-at-09.55.41-600x450.jpeg"
+                    <img src="https://images.seeklogo.com/logo-png/23/1/gerakan-pramuka-logo-png_seeklogo-234983.png"
                         class="border-0 rounded object-fit-cover" width="150" alt="Logo">
                 </a>
                 <h3 class="fw-semibold mt-3 mb-2 text-center">Selamat Datang!</h3>
-                <p class="mb-4 text-center">Silakan login untuk mengakses sistem data alumni SMAN 4 Tasikmalaya.</p>
+                <p class="mb-4 text-center">Silakan login untuk mengakses sistem data anggota Pramuka</p>
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="mb-3 text-start">

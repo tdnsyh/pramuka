@@ -15,14 +15,14 @@
             <div class="row row-cols-1 row-cols-md-4 g-4">
                 @forelse ($gudeps as $gudep)
                     <div class="col">
-                        <div class="card border">
+                        <div class="card border mb-0">
                             <div class="ratio ratio-4x3">
-                                <img src="{{ asset('storage/' . ($gudep->about->logo ?? 'images/default-logo.png')) }}"
+                                <img src="{{ asset('storage/' . ($gudep->about->logo ?? 'assets/images/default.jpg')) }}"
                                     class="card-img-top object-fit-cover" alt="Logo {{ $gudep->name }}"
-                                    onerror="this.onerror=null;this.src='{{ asset('images/default-logo.png') }}';">
+                                    onerror="this.onerror=null;this.src='{{ asset('assets/images/default.jpg') }}';">
                             </div>
                             <div class="card-body p-4">
-                                <a href="{{ route('gudep.show', $gudep->id) }}">
+                                <a href="{{ route('gudep.show', $gudep->name) }}">
                                     <h5 class="card-title">{{ $gudep->name }}</h5>
                                 </a>
 

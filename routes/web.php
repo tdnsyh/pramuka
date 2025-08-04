@@ -10,6 +10,7 @@ use App\Http\Controllers\Public\PublicController;
 
 // landing page
 Route::get('/', [PublicController::class, 'publicIndex']);
+Route::get('/tentang', [PublicController::class, 'tentangKwarcab']);
 
 // kegiatan
 Route::controller(PublicController::class)->prefix('kegiatan')->name('kegiatan.')->group(function () {
@@ -20,14 +21,16 @@ Route::controller(PublicController::class)->prefix('kegiatan')->name('kegiatan.'
     Route::get('/pendaftaran/{slug}/berhasil/{kode}', 'kegiatanBerhasil')->name('berhasil');
 });
 
+// kwarran
 Route::controller(PublicController::class)->prefix('kwarran')->name('kwarran.')->group(function () {
     Route::get('/data', 'kwarranIndex')->name('data');
-    Route::get('/{kwarran}/detail', 'kwarranShow')->name('show');
+    Route::get('/{kwarran:name}/detail', 'kwarranShow')->name('show');
 });
 
+// gudep
 Route::controller(PublicController::class)->prefix('gudep')->name('gudep.')->group(function () {
     Route::get('/data', 'gudepIndex')->name('data');
-    Route::get('/{gudep}/detail', 'gudepShow')->name('show');
+    Route::get('/{gudep:name}/detail', 'gudepShow')->name('show');
 });
 
 // route auth

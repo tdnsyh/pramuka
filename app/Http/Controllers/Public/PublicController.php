@@ -8,23 +8,58 @@ use Illuminate\Support\Str;
 use App\Models\KegiatanPendaftaran;
 use App\Models\Kegiatan;
 use App\Models\Region;
+use Illuminate\Support\Carbon;
+use App\Models\Anggota;
+use Illuminate\Support\Facades\DB;
+use App\Models\KegiatanGaleri;
 
 class PublicController extends Controller
 {
     // landing page
     public function publicIndex()
     {
-        return view('public.index');
+        $kegiatan = Kegiatan::whereDate('tanggal', '<=', Carbon::today())->orderBy('tanggal', 'desc')->get();
+        $agenda = Kegiatan::whereDate('tanggal', '>', Carbon::today())->orderBy('tanggal', 'asc')->get();
+
+        $jumlahGudep = Region::where('type', 'gudep')->count();
+        $jumlahKwarran = Region::where('type', 'kwarran')->count();
+
+        $jumlahAnggotaAktif = Anggota::where('status', 'aktif')->count();
+        $anggotaPerGolongan = Anggota::select('golongan', DB::raw('count(*) as total'))
+                                    ->where('status', 'aktif')
+                                    ->groupBy('golongan')
+                                    ->pluck('total', 'golongan');
+
+        $galeri = KegiatanGaleri::latest()->take(10)->get();
+
+        return view('public.index', compact(
+            'kegiatan',
+            'agenda',
+            'jumlahGudep',
+            'jumlahKwarran',
+            'jumlahAnggotaAktif',
+            'anggotaPerGolongan',
+            'galeri'
+        ));
     }
 
     // daftar kegiatan
     public function kegiatanIndex()
     {
         $kegiatan = Kegiatan::with('region')
-                            ->latest()
-                            ->paginate(10);
+                    ->whereDate('tanggal', '<=', Carbon::today())
+                    ->orderBy('tanggal', 'desc')
+                    ->get();
 
-        return view('public.kegiatan.index', compact('kegiatan'));
+        $agenda = Kegiatan::with('region')
+                    ->whereDate('tanggal', '>', Carbon::today())
+                    ->orderBy('tanggal', 'asc')
+                    ->get();
+
+        return view('public.kegiatan.index', compact(
+            'kegiatan',
+            'agenda',
+        ));
     }
 
     // detail kegiatan
@@ -123,6 +158,11 @@ class PublicController extends Controller
         $about = $gudep->about;
 
         return view('public.kwarran.gudep', compact('gudep', 'kwarran', 'about'));
+    }
+
+    public function tentangKwarcab()
+    {
+        return view('public.tentang.index');
     }
 
 }
